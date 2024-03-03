@@ -31,7 +31,8 @@ public class CurrencyConverterControllerTest {
 
   @Test
   void testConvertCurrencyGetKO() {
-    when(currencyConverterService.currencyConverter(30.0, "USD")).thenReturn(null);
+    when(currencyConverterService.currencyConverter(30.0, "USD"))
+        .thenThrow(IllegalStateException.class);
     ResponseEntity<?> result = currencyConverterController.currencyConverter(30.0, "USD");
     assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
   }
@@ -51,7 +52,7 @@ public class CurrencyConverterControllerTest {
     CurrencyConverterRequest converterRequest = new CurrencyConverterRequest(30.0, "USD");
     when(currencyConverterService.currencyConverter(
             converterRequest.amount(), converterRequest.to()))
-            .thenReturn(null);
+        .thenThrow(IllegalStateException.class);
     ResponseEntity<?> result = currencyConverterController.currencyConverter(converterRequest);
     assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
   }

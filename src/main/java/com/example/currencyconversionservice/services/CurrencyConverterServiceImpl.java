@@ -82,6 +82,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             return rate;
 
           } catch (Exception e) {
+            logger.error("Error calling the exchange rate API", e);
             throw new IllegalStateException("Error calling the exchange rate API", e);
           }
         });

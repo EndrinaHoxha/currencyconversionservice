@@ -5,7 +5,6 @@ import com.example.currencyconversionservice.services.CurrencyConverterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +28,7 @@ public class CurrencyConverterController {
   public ResponseEntity<?> currencyConverter(
       @RequestParam Double amount, @RequestParam @Size(max = 3) String to) {
     try {
-      double result = currencyConverterService.currencyConverter(amount, to);
+      Double result = currencyConverterService.currencyConverter(amount, to);
       return ResponseEntity.ok(result);
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
@@ -43,7 +42,7 @@ public class CurrencyConverterController {
   public ResponseEntity<?> currencyConverter(
       @RequestBody @Valid CurrencyConverterRequest converterRequest) {
     try {
-      double result =
+      Double result =
           currencyConverterService.currencyConverter(
               converterRequest.amount(), converterRequest.to());
       return ResponseEntity.ok(result);

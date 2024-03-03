@@ -1,0 +1,45 @@
+
+# Log level (e.g., DEBUG, INFO, WARN, ERROR)
+logging:
+  level:
+    ROOT: INFO
+    io.github.resilience4j: DEBUG
+
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1234
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
+
+
+exchange:
+  api-url: "http://api.exchangeratesapi.io/v1/latest?access_key="
+  api-key: 5473028756298d3f005c6365c0a5f40c
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      currencyConverterService:
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: count_based

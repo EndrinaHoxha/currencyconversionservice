@@ -10,16 +10,6 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password:
-    driverClassName: org.postgresql.Driver
-  jpa:
-    hibernate:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-      ddl-auto: update
-
 
 exchange:
   api-url: "http://api.exchangeratesapi.io/v1/latest?access_key="

@@ -1,9 +1,7 @@
 package com.example.currencyconversionservice.services;
 
 import com.example.currencyconversionservice.config.AppConfig;
-import com.example.currencyconversionservice.model.dao.CurrencyConverterRepository;
 import com.example.currencyconversionservice.model.dto.CurrencyConverterResponse;
-import com.example.currencyconversionservice.model.mapper.CurrencyConverterMapper;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,28 +18,19 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
   private static final Logger logger = LoggerFactory.getLogger(CurrencyConverterServiceImpl.class);
   private final RestTemplate restTemplate;
   private final AppConfig config;
-  private final CurrencyConverterRepository repository;
-  private final CurrencyConverterMapper mapper;
   private final CacheService cacheService;
 
   @Autowired
   public CurrencyConverterServiceImpl(
-      AppConfig config,
-      CurrencyConverterRepository repository,
-      RestTemplate restTemplate,
-      CurrencyConverterMapper mapper,
-      CacheService cacheService) {
+      AppConfig config, RestTemplate restTemplate, CacheService cacheService) {
     this.config = config;
-    this.repository = repository;
     this.restTemplate = restTemplate;
-    this.mapper = mapper;
     this.cacheService = cacheService;
   }
 
   @Override
   public Double currencyConverter(Double amount, String to) {
     Double rate = getRate(to);
-    // save(converterDto);
     return amount * rate;
   }
 
@@ -87,12 +76,4 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
           }
         });
   }
-
-  /*  @Override
-    public void save(CurrencyConverterResponse converterDto) {
-      CurrencyConverterEntity currencyConverterEntity;
-      currencyConverterEntity = mapper.toEntity(converterDto);
-      repository.save(currencyConverterEntity);
-
-  }*/
 }
